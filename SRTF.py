@@ -1,19 +1,16 @@
 import random
 
-def srtf():
+def srtf(qtd):
     processos = {}
     processos_ordenados = []
 
     # Inicializando processos com tempos de chegada e execução aleatórios
-    for i in range(1, 5):
+    for i in range(1, qtd):
         processos['P' + str(i)] = {'tempo_chegada': random.randint(0, 5), 'tempo_execucao': random.randint(1, 5), 'prioridade': random.randint(1,5)}
 
     tempo_atual = 0
     processos_restantes = list(processos.keys())
-    print(processos)
-    input()
-
-
+    diagrama = []
     while processos_restantes:
         menor_tempo = None
         processo_atual = None
@@ -31,18 +28,11 @@ def srtf():
             tempo_atual += 1
         else: 
             #executa o algoritmo diminuindo cpu-burst a cada +1 de tempo_atual
-            print(f'Processo atual: {processo_atual}')
             processos[processo_atual]['tempo_execucao'] -= 1
             tempo_atual += 1
-
-            if processos[processo_atual]['tempo_execucao'] == 0:
+            if processos[processo_atual]['tempo_execucao'] <= 0:
                 #cpu_burst = 0, ele remove do processo
                 processos_ordenados.append(processo_atual)
-                processos_restantes.remove(processo_atual)      
-    print(processos_ordenados)
-
-
-
-
-
-srtf()
+                processos_restantes.remove(processo_atual)   
+            diagrama.append(processo_atual)   
+    return processos,diagrama
