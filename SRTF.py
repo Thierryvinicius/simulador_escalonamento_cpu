@@ -1,13 +1,14 @@
 import random
+import copy
 
 def srtf(qtd):
     processos = {}
     processos_ordenados = []
-
+    processos2 = {}
     # Inicializando processos com tempos de chegada e execução aleatórios
     for i in range(1, qtd):
         processos['P' + str(i)] = {'tempo_chegada': random.randint(0, 5), 'tempo_execucao': random.randint(1, 5), 'prioridade': random.randint(1,5)}
-
+    processos2 = copy.deepcopy(processos)
     tempo_atual = 0
     processos_restantes = list(processos.keys())
     diagrama = []
@@ -35,4 +36,4 @@ def srtf(qtd):
                 processos_ordenados.append(processo_atual)
                 processos_restantes.remove(processo_atual)   
             diagrama.append(processo_atual)   
-    return processos,diagrama
+    return processos2,diagrama
