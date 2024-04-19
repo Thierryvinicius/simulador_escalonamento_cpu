@@ -35,5 +35,8 @@ def srtf(qtd):
                 #cpu_burst = 0, ele remove do processo
                 processos_ordenados.append(processo_atual)
                 processos_restantes.remove(processo_atual)   
-            diagrama.append(processo_atual)   
-    return processos2,diagrama
+            diagrama.append(processo_atual)  
+    orq = {}
+    for chave in processos_ordenados:
+        orq[chave] = processos2[chave] 
+    return processos2,diagrama,orq

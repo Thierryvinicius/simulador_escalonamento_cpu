@@ -1,6 +1,7 @@
 import tkinter as tk 
 from main import main
 from tkinter import messagebox
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class Quadrado:
     def __init__(self, canvas, x, y, tamanho, texto, cor):
@@ -9,7 +10,8 @@ class Quadrado:
         self.retangulo = canvas.create_rectangle(x, y, x + tamanho, y + tamanho, fill=cor)
         self.texto = canvas.create_text(x + tamanho / 2, y + tamanho / 2, text=texto, fill="black")
 
-global selectedValue,quadrados,posicao,numberColor,x,y,limparCanvas,widgets_grid,processos,qtdIsert,existDiagrama
+global selectedValue,quadrados,posicao,numberColor,x,y,limparCanvas,widgets_grid,processos,qtdIsert,existDiagrama,orq
+orq = {}
 qtdIsert = 0
 processos = {}
 widgets_grid = []
@@ -41,12 +43,12 @@ def centralizar_janela(janela,largura,altura):
 
 def auto():
     def InserirAuto():
-        global processo,diagrama,nomeAnterior,widgets_grid
+        global processo,diagrama,nomeAnterior,widgets_grid,orq
 
         qtd = qtdtxt.get()
         if qtd.isdigit():
             janelaqtd.destroy()
-            processo,diagrama = main(selectedValue,int(qtd)+1)
+            processo,diagrama,orq = main(selectedValue,int(qtd)+1)
             nomeAnterior = diagrama[0]
             limpar_grid(widgets_grid)
             criar_grid(processo)
@@ -142,7 +144,7 @@ def proximo():
     global quadrados,posicao,numberColor,x,y,limparCanvas,existDiagrama
 
     for i in range(0,len(diagrama)):
-        if posicao < len(diagrama) - 1:
+        if posicao < len(diagrama)-1:
             posicao += 1
             gerar_quadrado()
         else:
@@ -198,14 +200,18 @@ def criar_grid(processo):
         widgets_grid.append(label_prioridade)
 
 def plot():
+    janelaPlot = tk.Toplevel()
+    centralizar_janela(janelaPlot,800,800)
     from plot_grafico import geraValor
-    operador = opcao_selecionada.get()
-    geraValor(processo, operador)
+    fig = geraValor(orq)
+    canvas = FigureCanvasTkAgg(fig, master=janelaPlot)  # A 'master' é a janela principal do Tkinter
+    canvas.draw()
+    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 janela = tk.Tk()
 
 janela.title('Simulador')
-janela.state('zoomed')
+janela.attributes('-zoomed',True)
 janela.configure(background='#696969')
 
 options = ['FCFS','SJF','SRTF']
@@ -221,9 +227,6 @@ frameInfo.pack(side='left',anchor='nw')
 
 selectBox = tk.OptionMenu(apbar, opcao_selecionada, *options, command=mostrar_selecao)
 selectBox.pack(padx=20,pady=10,side='left')
-
-buttonInsert = tk.Button(apbar,text='Inserir',bg='white',command=Insert)
-buttonInsert.pack(padx=20,pady=10,side='left')
 
 buttonAuto = tk.Button(apbar,text='Auto',bg='white',command=auto)
 buttonAuto.pack(padx=20,pady=10,side='left')

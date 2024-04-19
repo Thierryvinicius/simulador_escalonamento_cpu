@@ -4,10 +4,10 @@ from SRTF import srtf
 def main(operador,qtd):
 
     if operador == 'FCFS':
-        processo,diagrama = FCFS(qtd)
+        processo,diagrama,orq = FCFS(qtd)
     elif operador == 'SJF':
-        processo,diagrama = SJF(qtd)
+        processo,diagrama,orq = SJF(qtd)
     else:
-        processo,diagrama = srtf(qtd)
+        processo,diagrama,orq = srtf(qtd)
         
-    return processo,diagrama
+    return processo,diagrama,orq

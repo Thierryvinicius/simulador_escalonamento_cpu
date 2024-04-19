@@ -80,29 +80,19 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.figure import Figure
 from collections import OrderedDict
 from SRTF import srtf
 
-def geraValor(processos, operador):
-    if operador == 'FCFS':
-        processos_ord = {}
-        processos_ordenados = (sorted(processos.items(), key=lambda x: x[1]['tempo_chegada']))
-        for ps in processos_ordenados:
-            processos_ord[ps[0]] = ps[1]
-        tempo_conclusao = calcula_tempo_conclusao(processos_ordenados)
-        plot_gantt_fcfs(processos_ord, tempo_conclusao)
-    # elif operador == 'SJF':
-    #     processos_ordenados = sorted(processos.items(), key=lambda x: x[1]['tempo_execucao'])
-    #     tempo_conclusao = calcula_tempo_conclusao(processos_ordenados)
-    #     plot_gantt_sjf(processos, tempo_conclusao)
-    elif operador == 'SRTF':
-        processos, diagrama = srtf(len(processos))
-        tempo_conclusao = calcula_tempo_conclusao_srtf(processos, diagrama)
-        plot_gantt_srtf(processos, diagrama, tempo_conclusao)
+def geraValor(processos):
+    processos_ord = {}
+    processos_ordenados  = list(processos.items())
+    for ps in processos_ordenados:
+        processos_ord[ps[0]] = ps[1]
+    tempo_conclusao = calcula_tempo_conclusao(processos_ordenados)
+    fig = plot_gantt_fcfs(processos_ord, tempo_conclusao)
+    return fig
 
-    else:
-        # Defina a lógica para outras políticas de escalonamento
-        pass
 
 def calcula_tempo_conclusao(processos_ordenados):
     tempo_conclusao = []
@@ -144,7 +134,6 @@ def plot_gantt_fcfs(processos, tempo_conclusao):
 
     tempo_corrente = 0
     # Adicionar barras para cada processo
-    print(tempo_conclusao)
     
     for i, proc in enumerate(processos):
         start_time = max(tempo_corrente, processos[proc]['tempo_chegada'])
@@ -158,9 +147,10 @@ def plot_gantt_fcfs(processos, tempo_conclusao):
     
     gnt.set_ylim(0, len(processos))
     gnt.set_xlim(0, max_conclusao)
-    plt.title('Gráfico de Gantt (FCFS)')
     plt.grid(True)
-    plt.show()
+    return fig
+    # plt.title('Gráfico de Gantt (FCFS)')
+    # plt.show()
 
 # Função para plotar o gráfico de Gantt para o algoritmo SJF
 
@@ -194,9 +184,11 @@ def plot_gantt_srtf(processos, diagrama, tempo_conclusao):
 
     gnt.set_ylim(0, len(processos))
     gnt.set_xlim(0, max_conclusao)
-    plt.title('Gráfico de Gantt (SRTF)')
-    plt.grid(True)
-    plt.show()
+
+    return fig
+    # plt.title('Gráfico de Gantt (SRTF)')
+    # plt.grid(True)
+    # plt.show()
 # processos = {
 #     'P1': {'tempo_chegada': 0, 'tempo_execucao': 3},
 #     'P2': {'tempo_chegada': 2, 'tempo_execucao': 4},
