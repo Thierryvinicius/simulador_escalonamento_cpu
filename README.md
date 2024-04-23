@@ -1,6 +1,8 @@
 ## Simulador de Escalonamento de CPU
 Este é um simulador de escalonamento de CPU que implementa os algoritmos SJF (Shortest Job First), FCFS (First-Come, First-Served) e SRTF (Shortest Remaining Time First). O objetivo do projeto é proporcionar uma compreensão prática dos diferentes algoritmos de escalonamento e analisar seus efeitos sobre o desempenho do sistema.
 
+Desenvolvido por: Pedro Eduardo, Leonardo Lescano, Leonardo Ramos e Thierry Vinicius.
+
 ## Funcionalidades
 # Simulação de Escalonamento: 
 O simulador permite carregar uma fila de processos e aplicar os algoritmos de escalonamento para determinar a ordem de execução dos processos.
@@ -12,10 +14,12 @@ Uma interface gráfica intuitiva é fornecida para visualizar o gráfico de temp
 O simulador calcula e apresenta os tempos médios de espera para cada algoritmo de escalonamento. Isso ajuda na avaliação comparativa do desempenho dos algoritmos.
 
 ## Como Usar
-...
+Para rodar o código é só executar o arquivo GUI.py
 
-## Requisitos do Sistema
-...
+## Requisitos 
+- matplotlib
+- tkinter
+
 ## Desenvolvimento e Contribuição
 O projeto está aberto para contribuições. Se você deseja melhorar o simulador de escalonamento de CPU ou adicionar novos recursos, sinta-se à vontade para enviar uma solicitação de pull request.
 
